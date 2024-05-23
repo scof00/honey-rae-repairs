@@ -1,26 +1,22 @@
-import { Outlet, Route, Routes } from "react-router-dom";
+import {Route, Routes } from "react-router-dom";
 import "./app.css";
-import { EmployeeList } from "./components/employees/employeesList";
-import { CustomerList } from "./components/tickets/customers/customersList";
-import { TicketList } from "./components/tickets/tickets/ticketList";
-import { NavBar } from "./components/nav/navBar";
+import { Login } from "./components/auth/Login"
+import {Register } from "./components/auth/Register"
+import { Authorized } from "./views/Authorized";
+import { ApplicationViews } from "./views/ApplicationViews";
 
 export const App = () => {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <>
-            <NavBar />
-            <Outlet />
-          </>
-        }
-      >
-        <Route path="tickets" element={<TicketList />} />
-        <Route path="customers" element={<CustomerList />} />
-        <Route path="employees" element={<EmployeeList />} />
-      </Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route path="*" element={
+        <Authorized>
+          <ApplicationViews/>
+        </Authorized>
+      }/>
+     
     </Routes>
   );
 };

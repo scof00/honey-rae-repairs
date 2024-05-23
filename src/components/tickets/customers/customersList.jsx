@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getNonStaffUsers } from "../../../services/userServices";
-import "./customer.css"
+import "../../../users/user.css"
 import { User } from "../../../users/user";
+import { Link } from "react-router-dom";
 
 export const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -14,7 +15,8 @@ export const CustomerList = () => {
     <div className="customers">
       {customers.map((user) => {
         return (
-          <User user={user} key={user.id}/>
+          <Link to={`/customers/${user.id}`}> <User user={user} key={user.id}/> 
+          </Link>
         );
       })}
     </div>
