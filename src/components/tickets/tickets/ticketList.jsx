@@ -4,17 +4,20 @@ import "./ticket.css";
 import { Ticket } from "./ticket";
 import { TicketFilterBar } from "./ticketFilterBar";
 
-export const TicketList = () => {
+export const TicketList = ({ currentUser }) => {
   const [allTickets, setAllTickets] = useState([]);
   const [showEmergencyOnly, setShowEmergencyOnly] = useState(false);
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  const getAndSetTickets= () => {
     getAllTickets().then((ticketsArray) => {
       setAllTickets(ticketsArray);
-      console.log("tickets set");
-    });
+  })
+}
+
+  useEffect(() => {
+    getAndSetTickets()
   }, []);
 
   useEffect(() => {
@@ -29,19 +32,31 @@ export const TicketList = () => {
   }, [showEmergencyOnly, allTickets]);
 
   useEffect(() => {
-    const foundTickets = allTickets.filter(ticket => ticket.description.toLowerCase().includes(searchTerm.toLocaleLowerCase()))
-    setFilteredTickets(foundTickets)
-  }, [searchTerm, allTickets])
+    const foundTickets = allTickets.filter((ticket) =>
+      ticket.description.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
+    setFilteredTickets(foundTickets);
+  }, [searchTerm, allTickets]);
 
   return (
     <div className="tickets-container">
       <h2>Tickets</h2>
-      <TicketFilterBar setShowEmergencyOnly={setShowEmergencyOnly} setSearchTerm={setSearchTerm}/>
+      <TicketFilterBar
+        setShowEmergencyOnly={setShowEmergencyOnly}
+        setSearchTerm={setSearchTerm}
+      />
       <article className="tickets">
-        {filteredTickets.map((ticketObj) => {
-          return <Ticket ticket={ticketObj} key={ticketObj.id} />;
+        {filteredTickets.map((ticket) => {
+          return (
+            <Ticket
+              ticket={ticket}
+              currentUser={currentUser}
+              getAndSetTickets={getAndSetTickets}
+              key={ticket.id}
+            />
+          );
         })}
       </article>
     </div>
   );
-};
+}
