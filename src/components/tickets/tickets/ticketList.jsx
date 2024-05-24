@@ -33,7 +33,7 @@ export const TicketList = ({ currentUser }) => {
 
   useEffect(() => {
     const foundTickets = allTickets.filter((ticket) =>
-      ticket.description.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+      ticket.description?.toLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
     setFilteredTickets(foundTickets);
   }, [searchTerm, allTickets]);
