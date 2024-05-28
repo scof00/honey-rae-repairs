@@ -28,3 +28,13 @@ export const deleteTicket = (ticketId) => {
 
     })
 }
+
+export const CreateTicket = (ticket) => {
+    return fetch(`http://localhost:8088/serviceTickets`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(ticket)
+    })
+}
